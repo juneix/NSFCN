@@ -11,7 +11,7 @@
 使用 OP 的新手，经过千辛万苦终于出国了，却发现宽带的 IPv6 公网访问没了，NAT1 网络环境也没了？岂不是得不偿失。  
 > 针对高阶需求的用户，OP、爱快是好工具，但它们都不太适合普通人，基本用不上（除非你家里开公司、开酒店民宿）。  
 
-本方案操作简单，对设备性能要求很低，你的 Linux 设备上除了 v2A➕AGH，依然可以安装 CasaOS、1Panel、OMV 等随便折腾，比 Openwrt 的扩展性和易用性强多了。
+本方案操作简单，对设备性能要求很低，Linux 系统运行 v2A➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，个人推荐 `OMV` 或 `fnOS` 这种定制的免费 NAS 系统，或者 `Armbian` 搭配 `CasaOS`、`1Panel`。
 - 推荐全屋网络接入 AGH（修改路由器 DNS ），去除部分广告，防止大数据追踪
 - v2A 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 socks5 代理）
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
@@ -25,16 +25,16 @@
 使用本方案，你只需准备以下设备，低成本甚至 0 成本即可抄作业：
 
 - 一台运行 Linux 系统的低功耗 arm 或 x86 设备
-  - 最低配置：~~让卖家帮忙~~刷了 Armbian 的 20 块包邮玩客云
-  - 常见配置：旧笔记本刷 Deepin 系统，仅需一个 0 成本 Ventoy 万能 U 盘
-  - 特殊配置：虚拟机创建 Debian 等 Linux 系统
+  - 最低配置：~~让卖家帮忙~~刷了 Armbian 的 20 块包邮玩客云（自己刷准备双公头 USB 线）
+  - 常见配置：旧笔记本刷 Deepin、OMV、fnOS 系统，仅需一个 0 成本 Ventoy 万能 U 盘
+  - 特殊配置：虚拟机创建 Linux 系统
 - 设备至少有一个千兆网口（对，单网卡就行……~~百兆也不是不能用~~.jpg）
 
 > 另一台电脑远程操作该 Linux 设备，需安装  SSH 工具（Win、Mac 自带终端就行，个人推荐简单易用的 [NextSSH](https://codemutex.com/) 或功能更多的 [Xterminal](https://www.terminal.icu/))
 > - 如果实在没电脑……手机使用 Termius、ServerBox 等 SSH 工具也可以。
 
 ## 一、安装工具
-使用 SSH 工具连上你的 Linux 设备，输入以下一键脚本命令安装所需工具（也可以用 Docker 部署，但更推荐脚本安装，设备独立 IP 没有 NAT）。
+使用 SSH 工具连上你的 Linux 设备，输入以下一键脚本命令安装所需工具（也可以用 Docker 部署，但更推荐脚本安装，设备有独立 IP 且没有 NAT）。
 
 ### 1. 选装 Github520
 请确保你的网络可以顺利访问 Github，我提供一个 [Github520](https://github.com/521xueweihan/GitHub520) 项目供参考，如果还不行请自己解决。  
@@ -46,24 +46,33 @@ sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.he
 1. v2rayA 推荐 ➡️ https://github.com/v2rayA/v2rayA  
 2. ShellCrash 备选 ➡️ https://github.com/juewuy/ShellCrash
 
-我使用的是基于 Debian 的系统（比如 OMV、Armbian），其他 Linux 发行版参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/)。
-
-**一键安装脚本**  
+#### （1）一键安装脚本
 安装来源是 v2rayA 作者的官网，部分地区可能速度较慢，请耐心等待。  
 ```
 sudo sh -c "$(wget -qO- https://hubmirror.v2raya.org/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
 ```  
+#### （2）手动安装
+> 我使用的是基于 Debian/Linux 的系统（比如 Deepin、OMV、fnOS、Armbian），其他 Linux 发行版参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/)。  
 
-**安装 iptables 模块**（已安装可跳过）  
+**添加公钥**
 ```
-apt add iptables ip6tables
+wget -qO - https://apt.v2raya.org/key/public-key.asc | sudo tee /etc/apt/keyrings/v2raya.asc
+```
+**添加 V2RayA 软件源**
+```
+echo "deb [signed-by=/etc/apt/keyrings/v2raya.asc] https://apt.v2raya.org/ v2raya main" | sudo tee /etc/apt/sources.list.d/v2raya.list
+sudo apt update
+```
+**安装 V2RayA**
+```
+sudo apt install v2raya v2ray ## 也可以使用 xray 包
 ```
 
+### 3. 启动 v2rayA
 **启动 v2rayA 服务**  
 ```
 sudo systemctl start v2raya.service
 ```
-
 **设置 v2rayA 开机自启动**  
 ```
 sudo systemctl enable v2raya.service
@@ -71,7 +80,7 @@ sudo systemctl enable v2raya.service
 
 后台管理地址`http://IP:2017`，更多使用教程见[v2rayA官方文档](https://v2raya.org)。
 
-### 3. 安装 AdGuardHome
+### 4. 安装 AdGuardHome
 GitHub 项目地址 ➡️ https://github.com/AdguardTeam/AdGuardHome  
 
 **一键安装脚本**  
@@ -99,3 +108,6 @@ curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/s
 
 按需【创建】单个节点，或【导入】订阅链接。  
 建议选中 3-6 个节点后，左上角启动，更多详细教程可以参考油管或谷歌搜索。
+
+## 三、感谢支持
+如果本文对你有帮助，可以考虑[赞赏](https://5nav.eu.org/wx-zsm.webp)一下哦～
