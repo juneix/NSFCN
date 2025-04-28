@@ -56,26 +56,16 @@ sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.he
 2. ShellCrash 备选 ➡️ https://github.com/juewuy/ShellCrash
 
 #### （1）一键安装脚本
-安装来源是 v2rayA 作者的官网，部分地区可能速度较慢，请耐心等待。  
+v2rayA 作者的镜像地址，可直连，但部分地区可能速度较慢。  
 ```
 sudo sh -c "$(wget -qO- https://hubmirror.v2raya.org/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
-```  
+```
+如果能直接访问 Github，用下面的原始链接速度更快。
+```
+sudo sh -c "$(wget -qO- https://github.com/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
+```
 #### （2）手动安装
-> 我使用的是基于 Debian/Linux 的系统（比如 Deepin、OMV、fnOS、Armbian），其他 Linux 发行版参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/)。  
-
-**添加公钥**
-```
-wget -qO - https://apt.v2raya.org/key/public-key.asc | sudo tee /etc/apt/keyrings/v2raya.asc
-```
-**添加 V2RayA 软件源**
-```
-echo "deb [signed-by=/etc/apt/keyrings/v2raya.asc] https://apt.v2raya.org/ v2raya main" | sudo tee /etc/apt/sources.list.d/v2raya.list
-sudo apt update
-```
-**安装 V2RayA**
-```
-sudo apt install v2raya v2ray ## 也可以使用 xray 包
-```
+具体参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/)。  
 
 ### 3. 启动 v2rayA
 **启动 v2rayA 服务**  
