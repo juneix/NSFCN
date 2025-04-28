@@ -13,7 +13,7 @@
 > 针对高阶需求的用户，爱快/OP 是好工具，但它们都不太适合普通人，纯属杀鸡用牛刀，可以但没必要（除非你家里开公司、酒店、民宿等企业场景）。对了，有些老旧设备跑软路由，性能其实不如近两年新出的硬路由产品——我是指家庭网络服务，不只是🪜。
 
 ## 方案介绍
-本方案操作简单，对设备性能要求很低，Linux 系统运行 v2A➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，个人推荐 `OMV` 或 `fnOS` 这种定制的免费 NAS 系统，或者 `Armbian` 搭配 `CasaOS`、`1Panel`。
+本方案操作简单，对设备性能要求很低，Linux 系统运行 v2A➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，x86设备推荐`飞牛私有云 fnOS`，arm 设备推荐`Armbian`或`DietPi`。
 - 推荐全屋网络接入 AGH（修改路由器 DNS ），去除部分广告，防止大数据追踪
 - v2A 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 socks5 代理）
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
@@ -29,21 +29,20 @@
 
 - 一台运行 Linux 系统的低功耗 arm 或 x86 设备，对性能基本没啥要求
   - 最低配置：~~让卖家帮忙~~刷了 Armbian 的 20 块包邮玩客云，自己刷准备双公头 USB 线
-  - 常见配置：旧笔记本刷 Deepin、OMV、fnOS 系统，仅需一个 0 成本 Ventoy 万能 U 盘
+  - 常见配置：旧笔记本刷 Deepin、fnOS 系统，仅需一个 0 成本 Ventoy 万能 U 盘
   - 特殊配置：虚拟机创建 Linux 系统
 - 设备至少有一个千兆网口（对，单网卡就行……~~百兆也不是不能用~~.jpg）
 
 - 系统安装参考：
   - [deepin 23 安装指南](https://www.deepin.org/zh/installation-guide-for-deepin-23-new-installation/)
   - [如何安装和初始化飞牛私有云 fnOS？](https://help.fnnas.com/articles/fnosV1/start/install-os.md)
-  - [NAS 新手的 OMV7 指南](https://tvtv.fun/omv7/)
   - [拯救玩客云，刷入armbian](https://mymuwu.net/?p=985)
 
-> 另一台电脑远程操作该 Linux 设备，需安装  SSH 工具（Win、Mac 自带终端就行，个人推荐简单易用的 [NextSSH](https://codemutex.com/) 或功能更多的 [Xterminal](https://www.terminal.icu/))
+另一台电脑远程操作该 Linux 设备，需安装  SSH 工具（Win、Mac 自带终端就行，个人推荐简单易用的 [NextSSH](https://codemutex.com/) 或功能更多的 [Xterminal](https://www.terminal.icu/))
 > - 如果实在没电脑……手机使用 Termius、ServerBox 等 SSH 工具也可以。
 
 ## 安装工具
-使用 SSH 工具连上你的 Linux 设备，输入以下一键脚本命令安装所需工具（也可以用 Docker 部署，但更推荐脚本安装，设备有独立 IP 且没有 NAT）。
+使用 SSH 工具连上你的 Linux 设备，输入以下一键脚本命令安装所需工具（也可以用 Docker 部署，但推荐安装为系统服务，避免不必要的麻烦）。
 
 ### 1. 选装 Github520
 请确保你的网络可以顺利访问 Github，我提供一个 [Github520](https://github.com/521xueweihan/GitHub520) 项目供参考，如果还不行请自己解决。  
@@ -52,9 +51,6 @@ sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.he
 ```
 
 ### 2. 安装 v2rayA
-1. v2rayA 推荐 ➡️ https://github.com/v2rayA/v2rayA  
-2. ShellCrash 备选 ➡️ https://github.com/juewuy/ShellCrash
-
 #### （1）一键安装脚本
 v2rayA 作者的镜像地址，可直连，但部分地区可能速度较慢。  
 ```
@@ -65,7 +61,7 @@ sudo sh -c "$(wget -qO- https://hubmirror.v2raya.org/v2rayA/v2rayA-installer/raw
 sudo sh -c "$(wget -qO- https://github.com/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
 ```
 #### （2）手动安装
-具体参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/)。  
+如果脚本安装失败，可以参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/) 手动安装。
 
 ### 3. 启动 v2rayA
 **启动 v2rayA 服务**  
