@@ -9,10 +9,10 @@
 
 ## 一、客户端推荐
 
-1. Linux 全屋出国
+1. Linux 全屋出国  
    参考[我的教程](https://github.com/juneix/NSFCN/blob/main/noOP-v2AGH.md)安装 v2rayA 后，设置为网关全屋所有设备都可以出国（也可以按需设置代理，指定设备出国）。
 
-2. 单独客户端
+2. 单独客户端  
 如果你不在家里，可以搭配单独的客户端使用。除了 iOS 的小火箭，基本都是免费开源软件。
    - Windows：[Mihomo Party](https://github.com/mihomo-party-org/mihomo-party/releases)
 
