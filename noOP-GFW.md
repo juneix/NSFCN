@@ -2,10 +2,13 @@
 
 ⚠️ 警告：请遵守天朝法律，做一个遵纪守法的好公民。切勿翻牆从事违法行为，否则后果自负！  
 > 声明：本人分享和转载的内容，仅限于研究和学习使用，不售卖任何盈利服务。
+
+## 2025.11 更新
+我从 v2rayA 换到 UIF 了，整体思路还是一样的。UIF 采用 singbox 内核，支持的协议更全面。
 ---
 ## 前言
-本方案使用 Linux 系统一键脚本安装 `~~v2rayA~~``UIF`➕`AdGuard Home`，作为`透明代理`和 `DNS服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt 软/旁路由`方案。 
-> 2025.11 更新，我从 v2rayA 换到 UIF 了，整体思路还是一样的。UIF 采用 singbox 内核，支持的协议更全面。
+本方案使用 Linux 系统部署 ~~v2rayA~~`UIF`➕`AdGuard Home`，作为`透明代理`和 `DNS服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt 软/旁路由`方案。 
+ 
 > 你也可以选择 `ShellCrash`，体验基本差不多，看个人喜好。我觉得 Clash 有点繁琐了。
 
 我先说个「**暴论**」—— 70% 的人其实压根不需要 Openwrt 除了🪜`魔法上网`之外的大部分功能，大部分人都是随大流，根据各种过时的 XX 教程安装了 OP，结果就是各种配置繁杂的过程，折腾时还经常遇到各种原因的网络故障。  
@@ -58,14 +61,14 @@ sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.he
 ```
 services:
   uif:
-    network_mode: host
+    image: ui4freedom/uif:latest
     container_name: uif
+    network_mode: host
+    restart: always
     privileged: true
-    restart: unless-stopped
     logging:
       options:
         max-size: 10m
-    image: ui4freedom/uif:latest
 ```
 #### （2）一键安装脚本
 如果你的设备比较老旧，或者不想使用 Docker，可以选择一键脚本安装。
@@ -74,48 +77,55 @@ services:
 curl -L -O "https://fastly.jsdelivr.net/gh/UIforFreedom/UIF@master/uifd/linux_install.sh" && chmod 755 ./linux_install.sh && bash ./linux_install.sh
 ```
 
-
-
-### 3. 启动 v2rayA
-**启动 v2rayA 服务**  
-```
-sudo systemctl start v2raya.service
-```
-**设置 v2rayA 开机自启动**  
-```
-sudo systemctl enable v2raya.service
-```
-
-后台管理地址`http://IP:2017`，更多使用教程见[v2rayA官方文档](https://v2raya.org)。
+后台管理地址`http://IP:9527`，更多使用教程见[v2rayA官方文档](https://v2raya.org)。
 
 ### 4. 安装 AdGuardHome
 GitHub 项目地址 ➡️ https://github.com/AdguardTeam/AdGuardHome  
 
+#### （1）Docker
+如果你没有特殊需求，建议直接 host 模式，比较简单省事。
+```
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    restart: always
+    network_mode: host
+    volumes:
+      - 【修改为存放配置文件的路径】:/opt/adguardhome/
+```
+AGH 官方的示例，包含完整桥接映射端口号
+```
+services:
+  adguardhome:
+    container_name: adguardhome
+    restart: unless-stopped
+    volumes:
+      - /my/own/workdir:/opt/adguardhome/work
+      - /my/own/confdir:/opt/adguardhome/conf
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 68:68/udp
+      - 80:80/tcp
+      - 443:443/tcp
+      - 443:443/udp
+      - 3000:3000/tcp
+      - 853:853/tcp
+      - 784:784/udp
+      - 853:853/udp
+      - 8853:8853/udp
+      - 5443:5443/tcp
+      - 5443:5443/udp
+    image: adguard/adguardhome
+```
+#### （2）一键安装脚本
 **一键安装脚本**  
 ```
 curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
 ```  
-
 后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
-
-## 搭配使用 v2A➕AGH
-### 1. AGH 初始化
-设置时，网页端口默认 `3000`，**DNS 端口建议默认 53，减少不必要的麻烦**。  
-如果提示 53 端口已绑定`bind: address already in use`，请参考 [AGH官方文档](https://adguard-dns.io/kb/zh-CN/adguard-home/faq/#bindinuse) 解除占用。  
-> AGH 文档暂时没中文版本，请打开浏览器翻译功能，推荐[沉浸式翻译扩展](https://immersivetranslate.com/)。
-
-### 2. v2A 设置参考
-点击右上角【⚙️设置】  
-- 透明代理：大陆白名单或者 GFWList，☑️开启 IP 转发，☑️开启端口分享
-- 实现方式：tproxy
-- 分流模式：同上（支持 http 和 socks5 代理）
-- 防止 DNS 污染：关闭（搭配 AGH 默认 53 端口使用）
-- 其他默认
-
-![v2rayA](https://github.com/juneix/noOP-v2AGH/assets/81808039/497f4eb9-9dc1-426d-9e73-81d427e8d477)
-
-按需【创建】单个节点，或【导入】订阅链接。  
-建议选中 3-6 个节点后，左上角启动，更多详细教程可以参考油管或谷歌搜索。
 
 ## 感谢支持
 如果本文对你有帮助，可以考虑[赞赏](https://5nav.eu.org/wx-zsm.webp)一下哦～
