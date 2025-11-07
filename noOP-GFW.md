@@ -1,11 +1,12 @@
-# 拜拜软路由👋noOP-v2AGH
+# 拜拜软路由👋noOP-GFW
 
 ⚠️ 警告：请遵守天朝法律，做一个遵纪守法的好公民。切勿翻牆从事违法行为，否则后果自负！  
 > 声明：本人分享和转载的内容，仅限于研究和学习使用，不售卖任何盈利服务。
 ---
 ## 前言
-本方案使用 Linux 系统一键脚本安装 `v2rayA`➕`AdGuard Home`，作为`透明代理`和 `DNS服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt 软/旁路由`方案。 
-> 你也可以选择 `ShellCrash` ➕ AdGuard Home，体验基本差不多，看个人喜好。我觉得 Clash 有点繁琐了，就用 v2rayA 了。
+本方案使用 Linux 系统一键脚本安装 `~~v2rayA~~``UIF`➕`AdGuard Home`，作为`透明代理`和 `DNS服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt 软/旁路由`方案。 
+> 2025.11 更新，我从 v2rayA 换到 UIF 了，整体思路还是一样的。UIF 采用 singbox 内核，支持的协议更全面。
+> 你也可以选择 `ShellCrash`，体验基本差不多，看个人喜好。我觉得 Clash 有点繁琐了。
 
 我先说个「**暴论**」—— 70% 的人其实压根不需要 Openwrt 除了🪜`魔法上网`之外的大部分功能，大部分人都是随大流，根据各种过时的 XX 教程安装了 OP，结果就是各种配置繁杂的过程，折腾时还经常遇到各种原因的网络故障。  
 
@@ -13,9 +14,9 @@
 > 针对高阶需求的用户，爱快/OP 是好工具，但它们都不太适合普通人，纯属杀鸡用牛刀，可以但没必要（除非你家里开公司、酒店、民宿等企业场景）。对了，有些老旧设备跑软路由，性能其实不如近两年新出的硬路由产品——我是指家庭网络服务，不只是🪜。
 
 ## 方案介绍
-本方案操作简单，对设备性能要求很低，Linux 系统运行 v2A➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，x86设备推荐`飞牛私有云 fnOS`，arm 设备推荐`Armbian`或`DietPi`。
+本方案操作简单，对设备性能要求很低，Linux 系统运行 UIF➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，x86设备推荐`飞牛私有云 fnOS`，arm 设备推荐`Armbian`或`DietPi`。
 - 推荐全屋网络接入 AGH（修改路由器 DNS ），去除部分广告，防止大数据追踪
-- v2A 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 socks5 代理）
+- 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 http 代理）
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
 - NAT1 正常使用，XBox、Switch 可正常联机，大部分时候不需要游戏加速器
 - XBox 可快速修改下载服务器 IP，基本跑满带宽
@@ -50,18 +51,30 @@
 sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
 ```
 
-### 2. 安装 v2rayA
-#### （1）一键安装脚本
-v2rayA 作者的镜像地址，可直连，但部分地区可能速度较慢。  
+### 2. 安装 UIF
+#### （1）Docker
+推荐采用 Docker 方式，操作简单，对系统本身无侵入。
+作者官方的是 Docker，我顺手改成了 Docker Compose 格式，方便抄作业。
 ```
-sudo sh -c "$(wget -qO- https://hubmirror.v2raya.org/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
+services:
+  uif:
+    network_mode: host
+    container_name: uif
+    privileged: true
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+    image: ui4freedom/uif:latest
 ```
-如果能直接访问 Github，用下面的原始链接速度更快。
+#### （2）一键安装脚本
+如果你的设备比较老旧，或者不想使用 Docker，可以选择一键脚本安装。
+更多详细内容可参考 [UIF 官网安装文档](https://v2raya.org/docs/prologue/installation/) 。
 ```
-sudo sh -c "$(wget -qO- https://github.com/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-v2ray
+curl -L -O "https://fastly.jsdelivr.net/gh/UIforFreedom/UIF@master/uifd/linux_install.sh" && chmod 755 ./linux_install.sh && bash ./linux_install.sh
 ```
-#### （2）手动安装
-如果脚本安装失败，可以参考 [v2rayA 官网安装文档](https://v2raya.org/docs/prologue/installation/) 手动安装。
+
+
 
 ### 3. 启动 v2rayA
 **启动 v2rayA 服务**  
