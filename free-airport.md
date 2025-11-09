@@ -10,46 +10,44 @@
 ## 一、客户端推荐
 
 1. Linux 全屋出国  
-   参考[我的教程](https://github.com/juneix/NSFCN/blob/main/noOP-v2AGH.md)安装 v2rayA 后，设置为网关全屋所有设备都可以出国（也可以按需设置代理，指定设备出国）。
+   参考[我的教程](https://github.com/juneix/NSFCN/blob/main/noOP-GFW.md)安装 UIF 后，设置为网关全屋所有设备都可以出国（也可以按需设置代理，指定设备出国）。
 
 2. 单独客户端  
 如果你不在家里，可以搭配单独的客户端使用。除了 iOS 的小火箭，基本都是免费开源软件。
-   - Windows：[Mihomo Party](https://github.com/mihomo-party-org/mihomo-party/releases)
+   - 全平台：Hiddify
+      - [Github 直接下载](https://github.com/hiddify/hiddify-app/releases/)
+      - [安卓 Play Store](https://play.google.com/store/apps/details?id=app.hiddify.com)
+      - [苹果 App Store](https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532)
 
-   - MacOS：[Mihomo Party](https://github.com/mihomo-party-org/mihomo-party/releases)
+   - 电脑版（PC、Mac）：[Clash Party](https://github.com/mihomo-party-org/clash-party/releases)
 
-   - iOS/iPadOS：[Shadowrocket](https://itunes.apple.com/us/app/shadowrocket/id932747118?mt=8)：俗称小火箭，售价$2.99💰、[sing-box](https://github.com/SagerNet/sing-box/releases) 免费。
+   - iOS/iPadOS：[Shadowrocket](https://apps.apple.com/us/app/shadowrocket/id932747118)：俗称小火箭，售价$2.99。
 
    - Android：[Clash Meta for Android](https://github.com/MetaCubeX/ClashMetaForAndroid/releases) 、[Surfboard](https://github.com/getsurfboard/surfboard/releases)
       
 ## 二、机场推荐
-作为一个垃圾佬，本文只推荐偶尔用用、便宜大碗的低端机场，不喜勿喷。互联网主打的是分享精神，天下大同，没必要上外网还要花几百块吧。
+作为一个垃圾佬，本文只推荐偶尔用用、便宜大碗的低端机场，不喜勿喷。互联网主打的是分享精神，天下大同，没必要上个外网还要花几百块吧。
 
 ### 1. 公益机场
 **💎 iKuuu**
 - 官网：[点我跳转](https://ikuuu.pw)
 - 价格：`¥0`，老牌公益机场，每月 `50GB`，每日签到送流量。
 
-### 2. 自建免费机场
-**💎 CF➕edgetunnel**
-- 官网：[点我跳转](https://github.com/cmliu/edgetunnel)
-- 价格：`¥0`，一键生成数十个地区节点，`不限流量`，速度也不错。
-
-### 3. 低价机场
+### 2. 低价机场
 **💰 稳连云**
 - 官网：[点我跳转](https://xn--fpzt75b.com/#/register?code=D0ndekah)
-- 价格：中转速度不错，流媒体解锁，不限制设备。
+- 价格：速度快且稳，流媒体解锁，不限制设备。
 
 | 每月流量    |  周期   | 价格   |
 | :----: | :----: | :----: |
-| 150GB  | 月付    | ¥10    |
-| 230GB  | 月付    | ¥12    |
+| 100GB  | 月付    | ¥12    |
+| 150GB  | 季付    | ¥45    |
 
-**💰 三分机场**
-- 官网：[点我跳转](https://xn--ehq00hgtfdmt.xyz/#/register?code=w8CMjmnU)
-- 价格：直连性价比高，中转套餐贵一些。
+**🔥 两元机场（Kitty Network）**
+- 官网：[点我跳转](https://kitty.su/#/register?code=zYvvh47s)
+- 价格： 便宜大碗，速度也还可以。
 
 | 每月流量    |  周期   | 价格   |
 | :----: | :----: | :----: |
-| 200GB  | 年付    | ¥9.5    |
-| 80GB   | 月付    | ¥9.9    |
+| 128GB  | 年付    | ¥24    |
+| 512GB  | 季付    | ¥15    |
