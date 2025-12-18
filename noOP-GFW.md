@@ -3,11 +3,11 @@
 ⚠️ 警告：请遵守天朝法律，做一个遵纪守法的好公民。切勿翻牆从事违法行为，否则后果自负！  
 > 声明：本人分享和转载的内容，仅限于研究和学习使用，不售卖任何盈利服务。
 
-## 0、更新
+## 〇、更新
 2025 年 11 月，我从 v2rayA 换到 UIforFreedom 了，整体思路还是一样的。UIforFreedom 采用 singbox 内核，支持的协议更全面。
 
 ---
-## 1、方案介绍
+## 一、方案介绍
 我先说个「**暴论**」—— 除了🪜`魔法上网`，80% 的家庭压根不需要 Openwrt 。很多人只是盲目跟风，照着教程把简单问题复杂化，结果 **从“用户”被迫变成了“网管”**，初期陷入各种修网络故障的泥潭（老司机觉得是小菜一碟，但对小白简直是折磨）。  
 
 **⚔️ 个人观点**：家庭网络应「各司其职」。硬路由负责核心连接（稳），NAS 负责应用扩展（玩）。与其「加钱」上高配软路由当轻 NAS，不如直接「硬路由 + NAS」组合。
@@ -32,7 +32,7 @@
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
 - NAT1 正常使用，XBox、Switch 可正常联机，大部分时候不需要游戏加速器
 
-## 2、硬件配置
+## 二、硬件配置
 使用本方案，你可以选择 NAS 或找台闲置设备，*0 成本*即可抄作业：
 
 - NAS 设备：系统不限，群晖、飞牛、绿联云、极空间等都可以（用 unraid、TrueNAS 老司机应该不会看这个XP）
@@ -41,7 +41,7 @@
   - x86：旧笔记本刷 fnOS 飞牛系统，仅需一个 Ventoy 万能 U 盘，成本 0 元
   - arm：电视盒子刷 Armbian、DietPi、海纳思等系统，有闲置就刷机，不要特意去买
 
-## 3、Docker 安装（二选一）
+## 三、Docker 安装（二选一）
 
 以前我习惯用原生安装的方式，但最近和 AI 交流后发现，在配置较高的设备上，Docker 的 `host` 模式跟原生安装几乎没有差别，而且 Docker 对系统侵入性更小，方便调试。
 
@@ -75,7 +75,7 @@ networks: {}
 UIF 后台管理地址`http://IP:9527`，更多使用教程见[[UIF 官方文档](https://ui4freedom.org/UIF_help/docs/quic/intro)。  
 AGH 后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH 优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
 
-## 4、原生安装（二选一）
+## 四、原生安装（二选一）
 原生安装需使用 SSH 工具连上你的 Linux 设备，使用官方一键脚本命令安装为系统服务，开机自启动。Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/)。
 > 一键脚本已配置加速，无需出国。
 
@@ -93,5 +93,5 @@ curl -L -O "https://fastly.jsdelivr.net/gh/UIforFreedom/UIF@master/uifd/linux_in
 curl -s -S -L https://gh-proxy.org/https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
 ```  
 
-## 5、感谢支持
+## 五、感谢支持
 如果本文对你有帮助，可以考虑[赞赏](https://5nav.eu.org/wx-zsm.webp)一下哦～
