@@ -31,11 +31,6 @@
 - 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 http 代理）
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
 - NAT1 正常使用，XBox、Switch 可正常联机，大部分时候不需要游戏加速器
-- XBox 可快速修改下载服务器 IP，基本跑满带宽
-
-![agh](https://github.com/juneix/noOP-AGHv2/assets/81808039/bcd3a018-f1ce-434b-9047-f1907f4e83ee)
-![xbox-down-ip](https://github.com/juneix/noOP-AGHv2/assets/81808039/efec34fb-0653-4293-85ac-d266fd04f829)
-![xbox-speed](https://github.com/juneix/noOP-AGHv2/assets/81808039/38ffa48c-4201-4593-babe-cb3d1a8eb69b)
 
 ## 2、硬件配置
 使用本方案，你可以选择 NAS 或找台闲置设备，*0 成本*即可抄作业：
