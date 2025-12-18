@@ -48,10 +48,10 @@
 
 ## 3、Docker 安装（二选一）
 
-以前我习惯用原生安装的方式，但最近和 AI 交流后发现，在配置较高的设备上，Docker host模式跟原生安装几乎没有差别，而且 Docker 对系统侵入性更小。
+以前我习惯用原生安装的方式，但最近和 AI 交流后发现，在配置较高的设备上，Docker 的 `host` 模式跟原生安装几乎没有差别，而且 Docker 对系统侵入性更小，方便调试。
 
-下面是我在使用的 docker-compose 配置，方便你一键抄作业。  
-> 如果你使用的是群晖、飞牛等 NAS 系统，推荐使用`毫秒镜像`加速，下面的docker已默认开启镜像加速。
+下面是我在使用的 docker-compose 配置文件，方便你一键抄作业。  
+> 配置文件已采用`毫秒镜像`加速，无需出国
 
 ```
 services:
@@ -77,15 +77,15 @@ services:
 networks: {}
 ```
 
-UIF 后台管理地址`http://IP:9527`，更多使用教程见[[UIF 官方文档](https://ui4freedom.org/UIF_help/docs/quic/intro)。
+UIF 后台管理地址`http://IP:9527`，更多使用教程见[[UIF 官方文档](https://ui4freedom.org/UIF_help/docs/quic/intro)。  
 AGH 后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH 优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
 
 ## 4、原生安装（二选一）
-原生安装需使用 SSH 工具连上你的 Linux 设备， 使用以下一键脚本命令安装为系统服务，开机自启动。
-> Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/))
+原生安装需使用 SSH 工具连上你的 Linux 设备，使用官方一键脚本命令（已配置加速，无需出国）安装为系统服务，开机自启动。  
+> Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/)
 
 ### 1. 安装 UIforFreedom
-[UIforFreedom 项目地址](https://github.com/UIforFreedom/UIF))
+[UIforFreedom 项目地址](https://github.com/UIforFreedom/UIF)  
 
 ```
 curl -L -O "https://fastly.jsdelivr.net/gh/UIforFreedom/UIF@master/uifd/linux_install.sh" && chmod 755 ./linux_install.sh && bash ./linux_install.sh
