@@ -3,22 +3,30 @@
 ⚠️ 警告：请遵守天朝法律，做一个遵纪守法的好公民。切勿翻牆从事违法行为，否则后果自负！  
 > 声明：本人分享和转载的内容，仅限于研究和学习使用，不售卖任何盈利服务。
 
-## 更新
-2025 年 11 月，我从 v2rayA 换到 UIF 了，整体思路还是一样的。UIF 采用 singbox 内核，支持的协议更全面
+## 0、更新
+2025 年 11 月，我从 v2rayA 换到 UIforFreedom 了，整体思路还是一样的。UIforFreedom 采用 singbox 内核，支持的协议更全面。
 
 ---
-## 前言
-本方案使用 Linux 系统部署 ~~v2rayA~~`UIF`➕`AdGuard Home`，作为`透明代理`和 `DNS服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt 软/旁路由`方案。 我从 v2rayA 换到 UIF 了，整体思路还是一样的。UIF 采用 singbox 内核，支持的协议更全面。
- 
-> 你也可以选择 `ShellCrash`，体验基本差不多，看个人喜好。我觉得 Clash 有点繁琐了。
+## 1、方案介绍
+我先说个「**暴论**」—— 除了🪜`魔法上网`，80% 的家庭压根不需要 Openwrt 。很多人只是盲目跟风，照着教程把简单问题复杂化，结果 **从“用户”被迫变成了“网管”**，初期陷入各种修网络故障的泥潭（老司机觉得是小菜一碟，但对小白简直是折磨）。  
 
-我先说个「**暴论**」—— 70% 的人其实压根不需要 Openwrt 除了🪜`魔法上网`之外的大部分功能，大部分人都是随大流，根据各种过时的 XX 教程安装了 OP，结果就是各种配置繁杂的过程，折腾时还经常遇到各种原因的网络故障。  
+**⚔️ 个人观点**：家庭网络应「各司其职」。硬路由负责核心连接（稳），NAS 负责应用扩展（玩）。与其「加钱」上高配软路由当轻 NAS，不如直接「硬路由 + NAS」组合。
+> 硬路由服务于人，OpenWrt 则需要人服务它。至于稳定性，不是靠“刷固件”能解决的——厂商通过软硬件深度调试得来的优势，软件难以弥补物理层的劣势。
 
-使用 OP 的新手，经过千辛万苦终于出国了，却发现宽带的 IPv6 公网访问没了，NAT1 网络环境也没了？岂不是得不偿失。  
-> 针对高阶需求的用户，爱快/OP 是好工具，但它们都不太适合普通人，纯属杀鸡用牛刀，可以但没必要（除非你家里开公司、酒店、民宿等企业场景）。对了，有些老旧设备跑软路由，性能其实不如近两年新出的硬路由产品——我是指家庭网络服务，不只是🪜。
+| 核心体验 | 🛡️ 品牌硬路由 | 🐌 低配 OpenWrt 盒子 |
+| :--- | :--- | :--- |
+| **易用性** | ✅ **傻瓜式**<br>即插即用，魔法上网按需开启 | ⚠️ **需折腾**<br>iStoreOS 界面有改善，依然**被迫当网管** |
+| **稳定性** | ✅ **稳如老狗**<br>软硬件高度耦合，经久耐用 | ⚠️ **参差不齐**<br>社区固件百家饭，驱动拼凑 |
+| **游戏/小包** | ✅ **硬件加速**<br>专用 NPU 通道，延迟低，抖动小 | ❌ **CPU 转发**<br>小包依赖 CPU，玩游戏时易跳 Ping、卡顿 |
+| **网络吞吐** | ✅ **硬件 NAT**<br>跑满千兆时几乎不占 CPU，稳定持续 | ⚠️ **消耗算力**<br>千兆能跑，但 CPU 负载高**拖累系统响应** |
+| **并发连接** | ✅ **海量连接**<br>针对 IoT 优化，百台设备轻松扛 | ⚠️ **内存瓶颈**<br>512M/1G 小内存，连接数一多**爆内存死机** |
+| **WiFi 覆盖** | ✅ **满血性能**<br>原厂调校 FEM 功放，信号强，漫游丝滑 | ❌ **残废或无**<br>通常无 WiFi 或驱动极烂，**必须外挂 AP** |
+| **IPv6 公网** | ✅ **默认支持**<br> IPv6 公网、NAT1 全支持（甚至开放 80/443） | ⚠️ **部分支持**<br>配置繁琐，常缺失 IPv6 或 NAT 类型受限 |
+| **功能扩展** | ⚠️ **几乎没有**<br>部分设备可开启 SSH (如装 Lucky) | ✅ **高度定制**<br>万物皆可装，**但这正是系统不稳的根源** |
 
-## 方案介绍
-本方案操作简单，对设备性能要求很低，Linux 系统运行 UIF➕AGH，整体比 Openwrt 的兼容性和易用性强多了。关于 Linux 的选择，x86设备推荐`飞牛私有云 fnOS`，arm 设备推荐`Armbian`或`DietPi`。
+本方案直接在 NAS 或闲置设备上部署`UIforFreedom`➕`AdGuard Home`，作为高性能`透明代理`和 `DNS 服务器`，替换掉劝退小白、操作繁琐的 `OpenWrt`，不用虚拟机，也不需要额外购买软路由。
+> 关于透明代理部分，你可以选择`UIforFreedom`、`v2rayA`、`ShellCrash`，甚至是无图形界面的`dae`，体验基本差不多，看个人喜好。
+
 - 推荐全屋网络接入 AGH（修改路由器 DNS ），去除部分广告，防止大数据追踪
 - 可全屋自动分流出国（修改路由器网关），也可以特定设备按需出国（单独设置网关或 http 代理）
 - IPv6 正常使用，搭配 Lucky 可以轻松实现远程访问、串流游戏等
@@ -29,104 +37,66 @@
 ![xbox-down-ip](https://github.com/juneix/noOP-AGHv2/assets/81808039/efec34fb-0653-4293-85ac-d266fd04f829)
 ![xbox-speed](https://github.com/juneix/noOP-AGHv2/assets/81808039/38ffa48c-4201-4593-babe-cb3d1a8eb69b)
 
-## 系统配置
-使用本方案，你只需准备以下**闲置设备**，低成本甚至 **0 成本**即可抄作业：
+## 2、硬件配置
+使用本方案，你可以选择 NAS 或找台闲置设备，*0 成本*即可抄作业：
 
-- 一台运行 Linux 系统的低功耗 arm 或 x86 设备，对性能基本没啥要求
-  - 最低配置：~~让卖家帮忙~~刷了 Armbian 的 20 块包邮玩客云，自己刷准备双公头 USB 线
-  - 常见配置：旧笔记本刷 Deepin、fnOS 系统，仅需一个 0 成本 Ventoy 万能 U 盘
-  - 特殊配置：虚拟机创建 Linux 系统
-- 设备至少有一个千兆网口（对，单网卡就行……~~百兆也不是不能用~~.jpg）
+- NAS 设备：系统不限，群晖、飞牛、绿联云、极空间等都可以（用 unraid、TrueNAS 老司机应该不会看这个XP）
+- 网络要求：设备至少有一个千兆网口（对，单网卡就行~~百兆也不是不能用~~.jpg）
+- 闲置设备：旧笔记本或电视盒子都行，对性能基本没啥要求
+  - x86：旧笔记本刷 fnOS 飞牛系统，仅需一个 Ventoy 万能 U 盘，成本 0 元
+  - arm：电视盒子刷 Armbian、DietPi、海纳思等系统，有闲置就刷机，不要特意去买
 
-- 系统安装参考：
-  - [deepin 23 安装指南](https://www.deepin.org/zh/installation-guide-for-deepin-23-new-installation/)
-  - [如何安装和初始化飞牛私有云 fnOS？](https://help.fnnas.com/articles/fnosV1/start/install-os.md)
-  - [拯救玩客云，刷入armbian](https://mymuwu.net/?p=985)
+## 3、Docker 安装（二选一）
 
-另一台电脑远程操作该 Linux 设备，需安装  SSH 工具（Win、Mac 自带终端就行，个人推荐简单易用的 [NextSSH](https://codemutex.com/) 或功能更多的 [Xterminal](https://www.terminal.icu/))
-> - 如果实在没电脑……手机使用 Termius、ServerBox 等 SSH 工具也可以。
+以前我习惯用原生安装的方式，但最近和 AI 交流后发现，在配置较高的设备上，Docker host模式跟原生安装几乎没有差别，而且 Docker 对系统侵入性更小。
 
-## 安装工具
-使用 SSH 工具连上你的 Linux 设备，输入以下一键脚本命令安装所需工具（也可以用 Docker 部署，但推荐安装为系统服务，避免不必要的麻烦）。
+下面是我在使用的 docker-compose 配置，方便你一键抄作业。  
+> 如果你使用的是群晖、飞牛等 NAS 系统，推荐使用`毫秒镜像`加速，下面的docker已默认开启镜像加速。
 
-### 1. 选装 Github520
-请确保你的网络可以顺利访问 Github，我提供一个 [Github520](https://github.com/521xueweihan/GitHub520) 项目供参考，如果还不行请自己解决。  
-```
-sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
-```
-
-### 2. 安装 UIF
-#### （1）Docker
-推荐采用 Docker 方式，操作简单，对系统本身无侵入。
-作者官方的是 Docker，我顺手改成了 Docker Compose 格式，方便抄作业。
 ```
 services:
-  uif:
-    image: ui4freedom/uif:latest
-    container_name: uif
+  adguardhome:
+    image: docker.1ms.run/adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
     network_mode: host
-    restart: always
+    volumes:
+      - /vol1/1000/docker/agh/work:/opt/adguardhome/work #飞牛直接套用，其他系统修改/vol1/1000/docker/agh/work为自定义目录
+      - /vol1/1000/docker/agh/conf:/opt/adguardhome/conf #飞牛直接套用，其他系统修改/vol1/1000/docker/agh/conf为自定义目录
+  uif:
+    image: docker.1ms.run/ui4freedom/uif:latest
+    container_name: uif
+    restart: unless-stopped
+    network_mode: host
     privileged: true
+    devices:
+      - /dev/net/tun
     logging:
       options:
         max-size: 10m
+networks: {}
 ```
-#### （2）一键安装脚本
-如果你的设备比较老旧，或者不想使用 Docker，可以选择一键脚本安装。
-更多详细内容可参考 [UIF 官网安装文档](https://v2raya.org/docs/prologue/installation/) 。
+
+UIF 后台管理地址`http://IP:9527`，更多使用教程见[[UIF 官方文档](https://ui4freedom.org/UIF_help/docs/quic/intro)。
+AGH 后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH 优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
+
+## 4、原生安装（二选一）
+原生安装需使用 SSH 工具连上你的 Linux 设备， 使用以下一键脚本命令安装为系统服务，开机自启动。
+> Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/))
+
+### 1. 安装 UIforFreedom
+[UIforFreedom 项目地址](https://github.com/UIforFreedom/UIF))
+
 ```
 curl -L -O "https://fastly.jsdelivr.net/gh/UIforFreedom/UIF@master/uifd/linux_install.sh" && chmod 755 ./linux_install.sh && bash ./linux_install.sh
 ```
 
-后台管理地址`http://IP:9527`，更多使用教程见[v2rayA官方文档](https://v2raya.org)。
+### 2. 安装 AdGuardHome
+[AdGuardHome 项目地址](https://github.com/AdguardTeam/AdGuardHome)  
 
-### 4. 安装 AdGuardHome
-GitHub 项目地址 ➡️ https://github.com/AdguardTeam/AdGuardHome  
-
-#### （1）Docker
-如果你没有特殊需求，建议直接 host 模式，比较简单省事。
 ```
-services:
-  adguardhome:
-    image: adguard/adguardhome
-    container_name: adguardhome
-    restart: always
-    network_mode: host
-    volumes:
-      - 【修改为存放配置文件的路径】:/opt/adguardhome/
-```
-AGH 官方的示例，包含完整桥接映射端口号
-```
-services:
-  adguardhome:
-    container_name: adguardhome
-    restart: unless-stopped
-    volumes:
-      - /my/own/workdir:/opt/adguardhome/work
-      - /my/own/confdir:/opt/adguardhome/conf
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 67:67/udp
-      - 68:68/udp
-      - 80:80/tcp
-      - 443:443/tcp
-      - 443:443/udp
-      - 3000:3000/tcp
-      - 853:853/tcp
-      - 784:784/udp
-      - 853:853/udp
-      - 8853:8853/udp
-      - 5443:5443/tcp
-      - 5443:5443/udp
-    image: adguard/adguardhome
-```
-#### （2）一键安装脚本
-**一键安装脚本**  
-```
-curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
+curl -s -S -L https://gh-proxy.org/https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
 ```  
-后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
 
-## 感谢支持
+## 5、感谢支持
 如果本文对你有帮助，可以考虑[赞赏](https://5nav.eu.org/wx-zsm.webp)一下哦～
