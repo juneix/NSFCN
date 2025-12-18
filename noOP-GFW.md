@@ -76,8 +76,7 @@ UIF 后台管理地址`http://IP:9527`，更多使用教程见[[UIF 官方文档
 AGH 后台管理地址`http://IP:3000`，更多使用教程见 P3TERX 大佬的[AGH 优化增强设置详解](https://p3terx.com/archives/use-adguard-home-to-build-dns-to-prevent-pollution-and-remove-ads-2.html)。
 
 ## 4、原生安装（二选一）
-原生安装需使用 SSH 工具连上你的 Linux 设备，使用官方一键脚本命令安装为系统服务，开机自启动。  
-> Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/)。
+原生安装需使用 SSH 工具连上你的 Linux 设备，使用官方一键脚本命令安装为系统服务，开机自启动。Win、Mac 自带的终端就行，或者使用功能强大的 [Xterminal](https://www.terminal.icu/)。
 > 一键脚本已配置加速，无需出国。
 
 ### 1. 安装 UIforFreedom
